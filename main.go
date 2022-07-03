@@ -7,6 +7,7 @@ import (
 	"github.com/atotto/clipboard"
 	"github.com/gen2brain/beeep"
 	"github.com/getlantern/systray"
+	"github.com/nleeper/goment"
 	"github.com/skratchdot/open-golang/open"
 )
 
@@ -19,10 +20,16 @@ var links = map[string]string{
 	"twitter": "https://twitter.com/gozeonl",
 }
 
+var g *goment.Goment
+var err error
+
 func init() {
 	log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
 	beeep.Beep(beeep.DefaultFreq, beeep.DefaultDuration)
-
+	g, err = goment.New()
+	if err != nil {
+		log.Println("init goment", err)
+	}
 }
 
 func main() {
@@ -44,6 +51,12 @@ func onReady() {
 	alert := systray.AddMenuItem("Alert", "系统通知")
 	clipboardMenu := systray.AddMenuItem("Clipboard", "粘贴板")
 
+	timeMenu := systray.AddMenuItem("Time", "时间")
+	ymd := timeMenu.AddSubMenuItem("YYYY-MM-DD", "")
+	hms := timeMenu.AddSubMenuItem("HH:mm:ss", "")
+	ymdhms := timeMenu.AddSubMenuItem("YYYY-MM-DD HH:mm:ss", "")
+	ymdhms1 := timeMenu.AddSubMenuItem("YYYYMMDDHHmmss", "")
+
 	systray.AddSeparator()
 	mQuit := systray.AddMenuItem("Quit", "Quit the whole app")
 	go func() {
@@ -62,6 +75,35 @@ func onReady() {
 				log.Println("clipboard", cl)
 			case <-alert.ClickedCh:
 				sysAlert("hello world")
+
+			case <-ymd.ClickedCh:
+				t := g.Format("YYYY-MM-DD")
+				err := clipboard.WriteAll(t)
+				if err != nil {
+					log.Println("clipboard wirte ymd", err)
+				}
+				log.Println("ymd", t)
+			case <-hms.ClickedCh:
+				t := g.Format("HH:mm:ss")
+				err := clipboard.WriteAll(t)
+				if err != nil {
+					log.Println("clipboard wirte hms", err)
+				}
+				log.Println("hms", t)
+			case <-ymdhms.ClickedCh:
+				t := g.Format("YYYY-MM-DD HH:mm:ss")
+				err := clipboard.WriteAll(t)
+				if err != nil {
+					log.Println("clipboard wirte ymdhms", err)
+				}
+				log.Println("ymdhms", t)
+			case <-ymdhms1.ClickedCh:
+				t := g.Format("YYYYMMDDHHmmss")
+				err := clipboard.WriteAll(t)
+				if err != nil {
+					log.Println("clipboard wirte ymdhms1", err)
+				}
+				log.Println("ymdhms1", t)
 			}
 		}
 	}()
