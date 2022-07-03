@@ -20,16 +20,10 @@ var links = map[string]string{
 	"twitter": "https://twitter.com/gozeonl",
 }
 
-var g *goment.Goment
-var err error
-
 func init() {
 	log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
 	beeep.Beep(beeep.DefaultFreq, beeep.DefaultDuration)
-	g, err = goment.New()
-	if err != nil {
-		log.Println("init goment", err)
-	}
+
 }
 
 func main() {
@@ -38,6 +32,15 @@ func main() {
 
 func sysAlert(msg string) {
 	beeep.Alert(links["appName"], msg, string(icon))
+}
+
+func getTime(format string) string {
+	g, err := goment.New()
+	if err != nil {
+		log.Println("init goment", err)
+		return ""
+	}
+	return g.Format(format)
 }
 
 func onReady() {
@@ -75,30 +78,29 @@ func onReady() {
 				log.Println("clipboard", cl)
 			case <-alert.ClickedCh:
 				sysAlert("hello world")
-
 			case <-ymd.ClickedCh:
-				t := g.Format("YYYY-MM-DD")
+				t := getTime("YYYY-MM-DD")
 				err := clipboard.WriteAll(t)
 				if err != nil {
 					log.Println("clipboard wirte ymd", err)
 				}
 				log.Println("ymd", t)
 			case <-hms.ClickedCh:
-				t := g.Format("HH:mm:ss")
+				t := getTime("HH:mm:ss")
 				err := clipboard.WriteAll(t)
 				if err != nil {
 					log.Println("clipboard wirte hms", err)
 				}
 				log.Println("hms", t)
 			case <-ymdhms.ClickedCh:
-				t := g.Format("YYYY-MM-DD HH:mm:ss")
+				t := getTime("YYYY-MM-DD HH:mm:ss")
 				err := clipboard.WriteAll(t)
 				if err != nil {
 					log.Println("clipboard wirte ymdhms", err)
 				}
 				log.Println("ymdhms", t)
 			case <-ymdhms1.ClickedCh:
-				t := g.Format("YYYYMMDDHHmmss")
+				t := getTime("YYYYMMDDHHmmss")
 				err := clipboard.WriteAll(t)
 				if err != nil {
 					log.Println("clipboard wirte ymdhms1", err)
