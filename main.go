@@ -3,7 +3,6 @@ package main
 import (
 	_ "embed"
 	"log"
-	"xtool/icon"
 
 	"github.com/atotto/clipboard"
 	"github.com/gen2brain/beeep"
@@ -13,7 +12,10 @@ import (
 )
 
 //go:embed icon/icon.png
-var iconM []byte
+var iconO []byte
+
+//go:embed icon/icon.ico
+var iconW []byte
 
 var links = map[string]string{
 	"appName": "XTool",
@@ -32,7 +34,11 @@ func main() {
 }
 
 func sysAlert(msg string) {
-	beeep.Alert(links["appName"], msg, string(iconM))
+	// TOOD: appIcn with go embed
+	err := beeep.Alert(links["appName"], msg, "")
+	if err != nil {
+		log.Println("sysAlert", err)
+	}
 }
 
 func getTime(format string) string {
@@ -45,7 +51,7 @@ func getTime(format string) string {
 }
 
 func onReady() {
-	systray.SetTemplateIcon(iconM, icon.Data)
+	systray.SetTemplateIcon(iconO, iconW)
 	systray.SetTooltip(links["appName"])
 
 	github := systray.AddMenuItem("Github", "gozeon")
