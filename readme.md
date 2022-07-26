@@ -15,4 +15,5 @@ go build -ldflags="-H windowsgui"
 ## reference
 
 - https://github.com/akavel/rsrc
+- https://github.com/getlantern/systray
 
