@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/atotto/clipboard v0.1.4
-	github.com/gen2brain/beeep v0.0.0-20230907135156-1a38885a97fc
+	github.com/gen2brain/beeep v0.0.0-20240112042604-c7bb2cd88fea
 	github.com/getlantern/systray v1.2.2
 	github.com/nleeper/goment v1.4.4
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
@@ -26,9 +26,9 @@ require (
 	github.com/oxtoacart/bpool v0.0.0-20190530202638-03653db5a59c // indirect
 	github.com/tadvi/systray v0.0.0-20190226123456-11a2b8fa57af // indirect
 	github.com/tkuchiki/go-timezone v0.2.2 // indirect
-	go.opentelemetry.io/otel v1.21.0 // indirect
-	go.opentelemetry.io/otel/metric v1.21.0 // indirect
-	go.opentelemetry.io/otel/trace v1.21.0 // indirect
+	go.opentelemetry.io/otel v1.22.0 // indirect
+	go.opentelemetry.io/otel/metric v1.22.0 // indirect
+	go.opentelemetry.io/otel/trace v1.22.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.26.0 // indirect
