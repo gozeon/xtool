@@ -1,0 +1,84 @@
+package main
+
+import (
+	_ "embed"
+	"log"
+
+	"github.com/atotto/clipboard"
+	"github.com/getlantern/systray"
+	"github.com/skratchdot/open-golang/open"
+)
+
+//go:embed icon/icon.png
+var iconO []byte
+
+//go:embed icon/icon.ico
+var iconW []byte
+
+func init() {
+	log.SetFlags(log.Ldate | log.Ltime | log.Llongfile)
+}
+
+//go:generate go run gen.go
+func main() {
+	systray.Run(onReady, onExit)
+}
+
+func onReady() {
+	systray.SetTemplateIcon(iconO, iconW)
+	systray.SetTooltip("{{.appname}}")
+
+
+{{ range $i, $menu := .menus }}
+    {{if eq $menu.type "separator" }}
+    systray.AddSeparator()
+    {{ else }}
+    menu{{$i}} := systray.AddMenuItem("{{$menu.title}}", "{{$menu.desc}}")
+    {{ end }}
+{{ end }}
+
+	systray.AddSeparator()
+	mQuit := systray.AddMenuItem("Quit", "Quit the whole app")
+	go func() {
+		for {
+			select {
+        {{ range $i, $menu := .menus }}
+            {{if eq $menu.type "link" }}
+            case <-menu{{$i}}.ClickedCh:
+                doOpen("{{$menu.path}}")
+            {{ end }}
+
+            {{if eq $menu.type "clipboard" }}
+            case <-menu{{$i}}.ClickedCh:
+                doCopy("{{$menu.path}}")
+            {{ end }}
+        {{ end }}
+
+			case <-mQuit.ClickedCh:
+				systray.Quit()
+			}
+		}
+	}()
+}
+
+func onExit() {
+	log.Println("onExit")
+}
+
+
+func doCopy(str string) {
+	err := clipboard.WriteAll(str)
+	if err != nil {
+		log.Println("clipboard err: ", err)
+	}
+	log.Println("clipboard success: ", str)
+}
+
+
+func doOpen(str string) {
+	err := open.Run(str)
+	if err != nil {
+		log.Println("open err: ", err)
+	}
+	log.Println("open success: ", str)
+}

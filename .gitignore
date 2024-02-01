@@ -1,3 +1,5 @@
 *.syso
 *.res
 *.exe
+main_gen.go
+

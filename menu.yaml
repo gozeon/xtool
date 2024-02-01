@@ -1,0 +1,12 @@
+appName: IPTV-TOOL
+menus:
+  - type: link
+    title: github
+    desc:
+    path: https://github.com
+
+  - type: separator
+
+  - type: clipboard
+    title: copycopy
+    path: copycopy

@@ -29,6 +29,7 @@ func init() {
 
 }
 
+//go:generate go run gen.go
 func main() {
 	systray.Run(onReady, onExit)
 }
