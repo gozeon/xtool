@@ -3,6 +3,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"text/template"
 
@@ -34,12 +35,17 @@ func main() {
 		panic(err)
 	}
 
-	f, err := os.Create(OUT_FILE)
+	config, err := getConfig()
 	if err != nil {
 		panic(err)
 	}
 
-	config, err := getConfig()
+	outfile := config.(map[string]any)["outfile"]
+	if outfile != nil {
+		OUT_FILE = outfile.(string)
+	}
+
+	f, err := os.Create(OUT_FILE)
 	if err != nil {
 		panic(err)
 	}

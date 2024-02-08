@@ -2,4 +2,5 @@
 *.res
 *.exe
 main_gen.go
+test.go
 

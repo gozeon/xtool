@@ -1,9 +1,14 @@
-appName: IPTV-TOOL
+outfile: test.go
+appName: X-TOOL
 menus:
   - type: link
     title: github
-    desc:
-    path: https://github.com
+    desc: gitub
+    path: https://github.com/gozeon
+  
+  - type: link
+    title: twitter
+    path: https://twitter.com/gozeonl
 
   - type: separator
 
