@@ -31,4 +31,6 @@ go generate
 - https://github.com/akavel/rsrc
 - https://github.com/getlantern/systray
 
+## only windows with C#
 
+[iptvtool](https://github.com/gozeon/code-collections/tree/master/c%23/iptvtool)
